@@ -226,6 +226,8 @@ const taxas = (valor,moeda) =>
 */
 
 /*
+8. 
+
   class  servidor {
      constructor(nome,espaço_total,espaço_ocupado)
      {
@@ -263,6 +265,97 @@ if (uploadAceito) {
   console.log(` Upload rejeitado! Espaço insuficiente no ${servidorWeb.nome}.`);
 }
 */
+/*
+9.Roteamento de Chamados de TI
+let fila_de_atendimento = [];
 
-     
-        
+function descobrirSetor(criticidade) {
+    switch(criticidade) {
+        case "1":
+            return "Atendimento Básico";
+        case "2":
+            return "Equipe Especializada";
+        case "3":
+            return "Gestão de Crise";
+        default:
+            return "Nível inválido";
+    }
+}
+
+let nivelUsuario = prompt("Digite a criticidade do novo problema (1, 2 ou 3):");
+
+// 4. Descobre o setor responsável usando a função
+let setorResponsavel = descobrirSetor(nivelUsuario);
+
+if (setorResponsavel !== "Nível inválido") {
+    fila_de_atendimento.push(setorResponsavel);
+} else {
+    console.log("Não foi possível adicionar à fila: Nível inválido informado.");
+}
+console.log("Fila de Atendimento atualizada:", fila_de_atendimento);
+
+   
+/*
+let  Caixa_de_loja ={
+     nomeoperador: "Operador Padrao",
+     saldo: 200,
+     historico: []
+}
+
+function registrarvenda(valor){
+    Caixa_de_loja.saldo += valor;
+    console.log(`Venda registrada. Novo saldo: R$ ${Caixa_de_loja.saldo}`);
+    
+
+}function registrardespesa(valor){
+    Caixa_de_loja.saldo -= valor;
+    console.log(`Despesa registrada. Novo saldo: R$ ${Caixa_de_loja.saldo}`);
+}
+    while (true)
+    {
+        let operacao = prompt("Digite 'v' para venda, 'd' para despesa ou 's' para sair: ");
+        if( operacao === null)
+            break;
+
+        if(operacao ==='v')
+        {
+            console.log("Encerrando registros...");
+            break;
+
+        }
+        let valor;
+
+        switch(operacao)
+        {
+            case 'v':
+                valor = parseFloat(prompt("Digite o valor da venda:"));
+                if(!isNaN(valor && valor > 0))
+                {
+                    registrarvenda(valor);
+                    Caixa_de_loja.historico.push(`Entrada: R$ ${valor.toFixed(2)}`);
+
+                }
+                break;
+            case 'd':
+                valor = parseFloat(prompt("Digite o valor da despesa:"));
+                if(!isNaN(valor && valor > 0 ))
+                {
+                    registrardespesa(valor);
+                    Caixa_de_loja.historico.push(`Saida: R$ ${valor.toFixed(2)}`);
+                    
+                }else
+                {
+                    console.log("Valor inválido.");
+
+                }
+                break;
+
+        }
+    }
+
+    console.log("--------------------AUDITORIA CAIXA ----------------------");
+    console.log(Caixa_de_loja);
+    console.log("---------------------------------------");
+
+
+*/
