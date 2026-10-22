@@ -1,6 +1,4 @@
-let numeros = [
-    
-];
+const numeros = [];
 
 export default numeros;
 
