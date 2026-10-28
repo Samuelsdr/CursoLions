@@ -1,0 +1,17 @@
+function removerContatos(contatos,id)
+{
+  const indice = contatos.findIndex((contato) => contato.id === id)
+
+    if(indice === -1)
+    {
+        console.log("Erro: Contato não encontrado");
+        return false;
+
+    }
+    contatos.splice(indice, 1);
+    console.log("Contado removido com sucesso!");
+    return true;
+    
+
+}
+export default removerContatos;
