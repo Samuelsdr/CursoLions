@@ -22,24 +22,33 @@ do {
 
     switch(opcao) {
         case 1:
-            console.log("\n[Adicionar Contato]");
-            let nome = prompt("Nome: ");
-            let email = prompt("Email: ");
-            let tel = prompt("Telefone: ");
-            
-            let novoContato = {
-                id: 0, 
-                nome: nome,
-                email: email,
-                telefones: [tel] 
-            };
+         console.log("[Adicionar Contato]");
+              let nome = prompt("Nome: ");
+              let email = prompt("Email: ");
+              let resposta = "n";    
+              let telefones = [];
+              let telefoneDigitado = "";
 
+do {
+    telefoneDigitado = prompt("Qual o número de telefone você deseja inserir: ");
+    telefones.push(telefoneDigitado);
+    
+    resposta = prompt("Deseja inserir mais um telefone? (s/n): ");
+} while (resposta.toLowerCase() === "s");
+
+        let novoContato = { 
+            id: 0, 
+             nome: nome,
+             email: email,
+            telefones: telefones
+};
             let adicionou = adicionarContato(contatos, novoContato);
             if (adicionou) {
                 console.log("Contato adicionado com sucesso!");
             }
             break;
             
+
         case 2:
             console.log("\n[Remover Contato]");
             let idRemover = parseInt(prompt("Insira o ID do contato que deseja remover: "));
