@@ -57,22 +57,39 @@ do {
             break;
             
         case 3:
-            console.log("\n[Atualizar Contato]");
-            let idAtualizar = parseInt(prompt("Insira o ID do contato que deseja atualizar: "));
-            
-            console.log("Deixe em branco os campos que não deseja alterar.");
-            let novoNome = prompt("Novo Nome: ");
-            let novoEmail = prompt("Novo Email: ");
-            let novoTel = prompt("Novo Telefone: ");
 
-            let novosDados = {};
-            if (novoNome) novosDados.nome = novoNome;
-            if (novoEmail) novosDados.email = novoEmail;
-            if (novoTel) novosDados.telefones = [novoTel];
+     console.log("\n[Atualizar Contato]");
 
-            atualizarContato(contatos, idAtualizar, novosDados);
-            break;
-            
+let idAtualizar = parseInt(prompt("Insira o ID do contato que deseja atualizar:"));
+
+let confirmar = prompt("Deseja realmente atualizar este contato? (s/n):").toLowerCase();
+
+if (confirmar === 's') {
+    console.log("Escolha o que deseja alterar. Deixe em branco o que quiser manter igual.");
+    
+    let novoNome = prompt("Novo Nome (ou Enter para manter o atual):");
+    let novoEmail = prompt("Novo Email (ou Enter para manter o atual):");
+    let novoTel = prompt("Novo Telefone (ou Enter para manter o atual):");
+    
+    let novosDados = {};
+    
+    if (novoNome) novosDados.nome = novoNome;
+    if (novoEmail) novosDados.email = novoEmail;
+    if (novoTel) novosDados.telefones = [novoTel];
+    
+
+    if (Object.keys(novosDados).length > 0) {
+        atualizarContato(contatos, idAtualizar, novosDados);
+        console.log("Campos selecionados atualizados com sucesso!");
+    } else {
+        console.log("Nenhuma alteração foi feita.");
+    }
+} else {
+    console.log("Atualização cancelada pelo usuário.");
+}
+
+break;
+
         case 4:
             console.log("\n[Lista de Contatos]");
             ListarContatos(contatos); 
