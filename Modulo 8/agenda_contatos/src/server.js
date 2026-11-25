@@ -27,7 +27,10 @@ app.post("/contato", async (req, res) => {
         const contato = await Contato.create(novo_contato);
         res.status(201).json(contato);
     } catch (error) {
-        console.error(error);
+      if(error.code === 11000)
+      {
+         return res.status(409).json({mensagem: `Erro email já esta sendo utilizado `});
+      }
         res.status(400).json({ mensagem: `Erro ao cadastrar contato: ${error.message}` });
     }
 });
@@ -35,3 +38,5 @@ app.post("/contato", async (req, res) => {
 app.listen(port, () => {
     console.log(`Aplicação iniciada na porta: ${port}`);
 });
+
+
