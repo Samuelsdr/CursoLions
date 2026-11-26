@@ -1,3 +1,4 @@
+
 import express from "express";
 import Pedido from "./models/pedido.js";
 import conectarBanco from "./db.js";
@@ -17,17 +18,24 @@ const TABELA_PRECOS = {
 // 3.1 Criar Pedido (CREATE)
 app.post("/pedidos", async (req, res) => {
   try {
-    const { nomeCliente, item, quantidade, formaPagamento, observacao } = req.body;
+    const {
+      nomeCliente,
+      item,
+      quantidade,
+      formaPagamento,
+      observacao
+    } = req.body;
 
     const valorUnitario = TABELA_PRECOS[item];
 
     if (!valorUnitario) {
       return res.status(400).json({
-        erro: "Item inválido. Escolha entre: Salgado, Suco, Combo ou Bolo.",
+        erro: "Item inválido. Escolha entre: Salgado, Suco, Combo ou Bolo."
       });
     }
 
     let valorTotal = valorUnitario * quantidade;
+
     if (quantidade >= 5) {
       valorTotal = valorTotal * 0.9;
     }
@@ -39,15 +47,21 @@ app.post("/pedidos", async (req, res) => {
       formaPagamento,
       observacao,
       valorUnitario,
-      valorTotal,
+      valorTotal
     });
 
     return res.status(201).json(novoPedido);
+
   } catch (error) {
     if (error.name === "ValidationError") {
-      return res.status(400).json({ erro: error.message });
+      return res.status(400).json({
+        erro: error.message
+      });
     }
-    return res.status(500).json({ erro: "Erro interno no servidor." });
+
+    return res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
   }
 });
 
@@ -55,9 +69,13 @@ app.post("/pedidos", async (req, res) => {
 app.get("/pedidos", async (req, res) => {
   try {
     const pedidos = await Pedido.find();
+
     return res.status(200).json(pedidos);
+
   } catch (error) {
-    return res.status(500).json({ erro: "Erro interno no servidor." });
+    return res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
   }
 });
 
@@ -67,15 +85,75 @@ app.get("/pedidos/busca", async (req, res) => {
     const { cliente } = req.query;
 
     const filtro = {};
+
     if (cliente) {
-    
-      filtro.nomeCliente = { $regex: cliente, $options: "i" };
+      filtro.nomeCliente = {
+        $regex: cliente,
+        $options: "i"
+      };
     }
 
     const pedidos = await Pedido.find(filtro);
+
     return res.status(200).json(pedidos);
+
   } catch (error) {
-    return res.status(500).json({ erro: "Erro interno no servidor." });
+    return res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
+  }
+});
+
+// 3.4 Atualizar Status do Pedido (UPDATE)
+app.patch("/pedidos/:id", async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const pedidoAtualizado = await Pedido.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      {
+        new: true,
+        runValidators: true
+      }
+    );
+
+    if (!pedidoAtualizado) {
+      return res.status(404).json({
+        erro: "Pedido não encontrado."
+      });
+    }
+
+    return res.status(200).json(pedidoAtualizado);
+
+  } catch (error) {
+    return res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
+  }
+});
+
+// 3.5 Remover Pedido (DELETE)
+app.delete("/pedidos/:id", async (req, res) => {
+  try {
+    const pedidoRemovido = await Pedido.findByIdAndDelete(
+      req.params.id
+    );
+
+    if (!pedidoRemovido) {
+      return res.status(404).json({
+        erro: "Pedido não encontrado."
+      });
+    }
+
+    return res.status(200).json({
+      mensagem: "Pedido removido com sucesso!"
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
   }
 });
 
